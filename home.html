@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldNet - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #4D44DB;
+      --accent: #FF6584;
+      --light: #F8F9FA;
+      --dark: #212529;
+      --gray: #6C757D;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      padding-bottom: 60px;
+    }
+    
+    /* Header */
+    .header {
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    /* Search in header */
+    .header-search {
+      flex: 1;
+      margin: 0 15px;
+      position: relative;
+      display: none;
+    }
+    
+    .header-search.active {
+      display: block;
+    }
+    
+    .header-search-input {
+      width: 100%;
+      padding: 8px 15px 8px 35px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background-color: #f5f7ff;
+    }
+    
+    .header-search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    /* Menu Hamburger */
+    .hamburger-menu {
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .hamburger-menu i {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .search-toggle {
+      margin-right: 10px;
+      cursor: pointer;
+      display: none;
+    }
+    
+    @media (min-width: 768px) {
+      .header-search {
+        display: block;
+        max-width: 300px;
+      }
+      
+      .search-toggle {
+        display: none !important;
+      }
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .sidebar.active {
+      right: 0;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+    }
+    
+    .close-sidebar {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+    
+    .sidebar-menu a {
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .sidebar-menu a:hover {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* Posts Container */
+    .posts-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 15px;
+    }
+    
+    /* Post Card */
+    .post-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      position: relative;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .user-info {
+      flex: 1;
+      cursor: pointer;
+    }
+    
+    .user-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .post-time {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    
+    .follow-btn {
+      position: absolute;
+      right: 15px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      transform: translateY(0);
+    }
+    
+    .follow-btn.following {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .follow-btn.not-following {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    
+    .follow-btn:active {
+      transform: translateY(2px);
+    }
+    
+    .post-content {
+      padding: 0 15px 15px;
+    }
+    
+    .post-text {
+      margin-bottom: 10px;
+    }
+    
+    .post-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+      max-height: 500px;
+      object-fit: contain;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 15px;
+      border-top: 1px solid #eee;
+    }
+    
+    .post-action {
+      display: flex;
+      align-items: center;
+      color: var(--gray);
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .post-action:hover {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+    }
+    
+    .post-action i {
+      margin-right: 5px;
+    }
+    
+    .post-action.liked {
+      color: var(--accent);
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 90;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+    }
+    
+    .nav-item i {
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+    }
+    
+    .nav-item.add-post {
+      flex: 0;
+      position: relative;
+      top: -20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .nav-item.add-post:active {
+      transform: scale(0.95);
+    }
+    
+    /* Notification Badge */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: 5px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.7rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 900;
+      display: none;
+      cursor: pointer;
+    }
+    
+    .overlay.active {
+      display: block;
+    }
+    
+    /* Modal de publication */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .modal-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-modal {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    #new-post-form {
+      padding: 15px;
+    }
+    
+    #post-text {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: inherit;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    
+    .image-preview {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .image-preview img {
+      max-width: 100%;
+      border-radius: 8px;
+      max-height: 300px;
+      display: none;
+    }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .upload-btn {
+      padding: 8px 15px;
+      background: #f0f2f5;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .publish-btn {
+      padding: 8px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .publish-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Loader */
+    .btn-loader {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .btn-loading .btn-loader {
+      display: inline-block;
+    }
+    
+    .btn-loading .btn-text {
+      opacity: 0.7;
+    }
+
+    /* Loading dots */
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .loading-dots span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin: 0 3px;
+      opacity: 0.4;
+    }
+    
+    .loading-dots span:nth-child(1) {
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    
+    .loading-dots span:nth-child(2) {
+      animation: pulse 1.4s ease-in-out 0.2s infinite;
+    }
+    
+    .loading-dots span:nth-child(3) {
+      animation: pulse 1.4s ease-in-out 0.4s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .posts-container {
+        padding: 15px 10px;
+      }
+      
+      .post-card {
+        border-radius: 8px;
+      }
+      
+      .header-search {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 10px 15px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      .search-toggle {
+        display: block;
+      }
+      
+      .nav-item.add-post {
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-globe"></i>
+      <h1>WorldNet</h1>
+    </div>
+    
+    <div class="header-search">
+      <i class="fas fa-search header-search-icon"></i>
+      <input type="text" class="header-search-input" placeholder="Rechercher..." id="header-search-input">
+    </div>
+    
+    <div class="search-toggle">
+      <i class="fas fa-search"></i>
+    </div>
+    
+    <div class="hamburger-menu">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+      <div class="close-sidebar">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Aide</a></li>
+      <li><a href="#" id="privacy-btn"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+      <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+    </ul>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Posts -->
+  <div class="posts-container" id="posts-container">
+    <div class="loading-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Modal de publication -->
+  <div id="post-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Créer une publication</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <form id="new-post-form">
+        <textarea id="post-text" placeholder="Quoi de neuf ?" rows="4"></textarea>
+        <div class="image-preview" id="image-preview"></div>
+        <div class="modal-actions">
+          <label for="post-image" class="upload-btn">
+            <i class="fas fa-image"></i> Ajouter une image
+          </label>
+          <input type="file" id="post-image" accept="image/*" style="display:none;">
+          <button type="submit" class="publish-btn" id="publish-btn">
+            <span class="btn-text">Publier</span>
+            <span class="btn-loader"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+    </a>
+    <a href="friends.html" class="nav-item">
+      <i class="fas fa-user-friends"></i>
+      <span>Réseau</span>
+    </a>
+    <div class="nav-item add-post" id="add-post-btn">
+      <i class="fas fa-plus"></i>
+    </div>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment-alt"></i>
+      <span>Messages</span>
+      <span class="notification-badge" id="message-notification-badge"></span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/compressorjs@1.1.1/dist/compressor.min.js"></script>
+
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDUvJWWJJ3udBaYw-Md-1qKyHDe5cbkq9A",
+      authDomain: "worldnet-71622.firebaseapp.com",
+      projectId: "worldnet-71622",
+      storageBucket: "worldnet-71622.appspot.com",
+      messagingSenderId: "152286947447",
+      appId: "1:152286947447:web:6dd17757a2d86737cdfe72"
+    };
+
+    // Initialisation
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Éléments du DOM
+    const postsContainer = document.getElementById('posts-container');
+    const addPostBtn = document.getElementById('add-post-btn');
+    const postModal = document.getElementById('post-modal');
+    const newPostForm = document.getElementById('new-post-form');
+    const postText = document.getElementById('post-text');
+    const postImage = document.getElementById('post-image');
+    const imagePreview = document.getElementById('image-preview');
+    const publishBtn = document.getElementById('publish-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const helpBtn = document.getElementById('help-btn');
+    const privacyBtn = document.getElementById('privacy-btn');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const closeSidebar = document.querySelector('.close-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const searchToggle = document.querySelector('.search-toggle');
+    const headerSearch = document.querySelector('.header-search');
+    const headerSearchInput = document.getElementById('header-search-input');
+    const notificationBadge = document.getElementById('message-notification-badge');
+
+    // Variables
+    let currentUser = null;
+    let following = [];
+    let allPosts = [];
+
+    // Vérification de connexion
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      
+      currentUser = user;
+      await loadFollowing();
+      loadPosts();
+      setupMessageNotifications();
+    });
+
+    // Configurer les notifications de messages
+    function setupMessageNotifications() {
+      db.collection("messages")
+        .where("participants", "array-contains", currentUser.uid)
+        .onSnapshot((snapshot) => {
+          let totalUnread = 0;
+          
+          snapshot.forEach(doc => {
+            const unread = doc.data().unreadCount?.[currentUser.uid] || 0;
+            totalUnread += unread;
+          });
+          
+          // Mettre à jour le badge
+          if (totalUnread > 0) {
+            notificationBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
+            notificationBadge.style.display = 'flex';
+          } else {
+            notificationBadge.style.display = 'none';
+          }
+        });
+    }
+
+    // Charger les utilisateurs suivis
+    async function loadFollowing() {
+      const userDoc = await db.collection("users").doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        following = userDoc.data().following || [];
+      }
+    }
+
+    // Charger les posts
+    function loadPosts() {
+      db.collection("posts")
+        .orderBy("createdAt", "desc")
+        .onSnapshot((snapshot) => {
+          allPosts = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          
+          displayPosts(allPosts);
+        });
+    }
+
+    // Afficher les posts
+    function displayPosts(posts) {
+      postsContainer.innerHTML = '';
+      
+      if (posts.length === 0) {
+        postsContainer.innerHTML = '<div class="no-posts">Aucune publication trouvée</div>';
+        return;
+      }
+      
+      posts.forEach((post) => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+      });
+    }
+
+    // Créer un post HTML
+    function createPostElement(post) {
+      const postElement = document.createElement('div');
+      postElement.className = 'post-card';
+      
+      const isFollowing = following.includes(post.userId);
+      const followBtnClass = isFollowing ? 'following' : 'not-following';
+      const followBtnText = isFollowing ? 'Suivi' : 'Suivre';
+      
+      // Avatar avec image ou initiale
+      let avatarContent = post.displayName?.charAt(0) || 'U';
+      let avatarStyle = '';
+      if (post.photoURL) {
+        avatarContent = '';
+        avatarStyle = `background-image: url('${post.photoURL}')`;
+      }
+      
+      postElement.innerHTML = `
+        <div class="post-header">
+          <div class="user-avatar" style="${avatarStyle}" onclick="viewUserProfile('${post.userId}')">
+            ${avatarContent}
+          </div>
+          <div class="user-info" onclick="viewUserProfile('${post.userId}')">
+            <div class="user-name">${post.displayName || 'Utilisateur'}</div>
+            <div class="post-time">${formatDate(post.createdAt?.toDate())}</div>
+          </div>
+          ${post.userId !== currentUser.uid ? 
+            `<button class="follow-btn ${followBtnClass}" data-user-id="${post.userId}">
+              ${followBtnText}
+            </button>` : ''
+          }
+        </div>
+        <div class="post-content">
+          ${post.text ? `<p class="post-text">${post.text}</p>` : ''}
+          ${post.imageBase64 ? `<img src="${post.imageBase64}" class="post-image">` : ''}
+        </div>
+        <div class="post-actions">
+          <div class="post-action like-btn ${post.likes?.includes(currentUser?.uid) ? 'liked' : ''}" data-post-id="${post.id}">
+            <i class="${post.likes?.includes(currentUser?.uid) ? 'fas' : 'far'} fa-heart"></i>
+            <span>${post.likes?.length || 0}</span>
+          </div>
+        </div>
+      `;
+      
+      // Gestion des likes
+      postElement.querySelector('.like-btn')?.addEventListener('click', () => {
+        toggleLike(post.id);
+      });
+      
+      // Gestion du bouton suivre
+      const followBtn = postElement.querySelector('.follow-btn');
+      if (followBtn) {
+        followBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleFollow(post.userId, followBtn);
+        });
+      }
+      
+      return postElement;
+    }
+
+    // Basculer le suivi
+    async function toggleFollow(userId, button) {
+      try {
+        button.disabled = true;
+        
+        const userRef = db.collection("users").doc(currentUser.uid);
+        
+        if (button.classList.contains('following')) {
+          // Ne plus suivre
+          await userRef.update({
+            following: firebase.firestore.FieldValue.arrayRemove(userId)
+          });
+          
+          // Décrémenter le compteur de followers
+          await db.collection("users").doc(userId).update({
+            followerCount: firebase.firestore.FieldValue.increment(-1)
+          });
+          
+          button.textContent = 'Suivre';
+          button.classList.remove('following');
+          button.classList.add('not-following');
+        } else {
+          // Suivre
+          await userRef.update({
+            following: firebase.firestore.FieldValue.arrayUnion(userId)
+          });
+          
+          // Incrémenter le compteur de followers
+          await db.collection("users").doc(userId).update({
+            followerCount: firebase.firestore.FieldValue.increment(1)
+          });
+          
+          button.textContent = 'Suivi';
+          button.classList.remove('not-following');
+          button.classList.add('following');
+        }
+        
+        // Mettre à jour la liste locale
+        const index = following.indexOf(userId);
+        if (index > -1) {
+          following.splice(index, 1);
+        } else {
+          following.push(userId);
+        }
+      } catch (error) {
+        console.error("Erreur:", error);
+        alert("Une erreur est survenue");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    // Gestion des likes
+    async function toggleLike(postId) {
+      const postRef = db.collection("posts").doc(postId);
+      const postDoc = await postRef.get();
+      
+      if (postDoc.exists) {
+        const likes = postDoc.data().likes || [];
+        const isLiked = likes.includes(currentUser.uid);
+        
+        await postRef.update({
+          likes: isLiked ? 
+            firebase.firestore.FieldValue.arrayRemove(currentUser.uid) : 
+            firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+        });
+      }
+    }
+
+    // Rediriger vers le profil utilisateur
+    function viewUserProfile(userId) {
+      window.location.href = `user-profile.html?id=${userId}`;
+    }
+    
+    // Exposer la fonction au scope global
+    window.viewUserProfile = viewUserProfile;
+
+    // Ouvrir/fermer le modal
+    addPostBtn.addEventListener('click', () => {
+      postModal.style.display = 'flex';
+      overlay.classList.add('active');
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+
+    function closeModal() {
+      postModal.style.display = 'none';
+      overlay.classList.remove('active');
+    }
+
+    // Aperçu de l'image
+    postImage.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          imagePreview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+          imagePreview.querySelector('img').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Compresser l'image
+    async function compressImage(file) {
+      return new Promise((resolve) => {
+        new Compressor(file, {
+          quality: 0.6,
+          success: (result) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(result);
+          }
+        });
+      });
+    }
+
+    // Publier un post
+    newPostForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const text = postText.value.trim();
+      const imageFile = postImage.files[0];
+
+      if (!text && !imageFile) {
+        alert("Ajoutez du texte ou une image !");
+        return;
+      }
+
+      try {
+        publishBtn.disabled = true;
+        publishBtn.classList.add('btn-loading');
+
+        let imageBase64 = '';
+        if (imageFile) {
+          imageBase64 = await compressImage(imageFile);
+        }
+
+        await db.collection("posts").add({
+          userId: currentUser.uid,
+          displayName: currentUser.displayName || currentUser.email.split('@')[0],
+          photoURL: currentUser.photoURL || '',
+          text: text,
+          imageBase64: imageBase64,
+          likes: [],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        closeModal();
+        postText.value = '';
+        postImage.value = '';
+        imagePreview.innerHTML = '';
+      } catch (error) {
+        console.error("Erreur:", error);
+        alert("Échec de la publication");
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.classList.remove('btn-loading');
+      }
+    });
+
+    // Menu hamburger
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Déconnexion
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    // Aide
+    helpBtn.addEventListener('click', () => {
+      alert("Centre d'aide - Contactez-nous à support@worldnet.com");
+    });
+
+    // Confidentialité
+    privacyBtn.addEventListener('click', () => {
+      alert("Politique de confidentialité - Vos données sont sécurisées avec nous.");
+    });
+
+    // Formatage de la date
+    function formatDate(date) {
+      if (!date) return "Date inconnue";
+      const now = new Date();
+      const diff = now - date;
+      const minutes = Math.floor(diff / (1000 * 60));
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      
+      if (minutes < 1) return "À l'instant";
+      if (minutes < 60) return `Il y a ${minutes} min`;
+      if (hours < 24) return `Il y a ${hours} h`;
+      return date.toLocaleDateString('fr-FR');
+    }
+
+    // Recherche
+    searchToggle.addEventListener('click', () => {
+      headerSearch.classList.toggle('active');
+    });
+
+    headerSearchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      if (searchTerm.length > 0) {
+        const filteredPosts = allPosts.filter(post => 
+          (post.text?.toLowerCase().includes(searchTerm) || 
+           post.displayName?.toLowerCase().includes(searchTerm))
+        );
+        displayPosts(filteredPosts);
+      } else {
+        displayPosts(allPosts);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldNet - Profil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #4D44DB;
+      --accent: #FF6584;
+      --light: #F8F9FA;
+      --dark: #212529;
+      --gray: #6C757D;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      padding-bottom: 60px;
+    }
+    
+    /* Header */
+    .header {
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    /* Menu Hamburger */
+    .hamburger-menu {
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+    
+    .hamburger-menu:active {
+      transform: scale(0.9);
+    }
+    
+    .hamburger-menu i {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .sidebar.active {
+      right: 0;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+    }
+    
+    .close-sidebar {
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .close-sidebar:active {
+      transform: scale(0.9);
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+    
+    .sidebar-menu a {
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .sidebar-menu a:hover {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* Profil Header */
+    .profile-header {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .cover-photo {
+      height: 180px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 0 0 10px 10px;
+      transition: all 0.3s;
+    }
+    
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid white;
+      position: absolute;
+      bottom: -50px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      background-size: cover;
+      background-position: center;
+      transition: all 0.3s;
+    }
+    
+    .profile-actions {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
+    
+    .edit-profile-btn {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .edit-profile-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .edit-profile-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Profile Info */
+    .profile-info {
+      padding: 70px 20px 20px;
+    }
+    
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .profile-email {
+      color: var(--gray);
+      margin-bottom: 15px;
+    }
+    
+    .profile-bio {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      flex: 1;
+    }
+    
+    .stat-item:hover {
+      background: rgba(108, 99, 255, 0.1);
+    }
+    
+    .stat-value {
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    
+    .stat-label {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    /* User Posts */
+    .user-posts {
+      padding: 0 15px;
+    }
+    
+    .section-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: var(--primary);
+    }
+    
+    /* Grille de publications */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+    }
+    
+    .post-item {
+      aspect-ratio: 1;
+      background: white;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .post-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .post-item:hover {
+      transform: translateY(-3px);
+    }
+    
+    .post-item:hover img {
+      transform: scale(1.05);
+    }
+    
+    .post-item.no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f2f5;
+      color: var(--gray);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 10px;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 90;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.3s;
+    }
+    
+    .nav-item i {
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+      transition: all 0.3s;
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover i {
+      transform: translateY(-3px);
+    }
+    
+    .nav-item.add-post {
+      flex: 0;
+      position: relative;
+      top: -20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .nav-item.add-post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4);
+    }
+    
+    .nav-item.add-post:active {
+      transform: scale(0.95);
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 900;
+      display: none;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Modal d'édition */
+    .edit-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .edit-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .edit-modal-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    
+    .edit-modal.active .edit-modal-content {
+      transform: translateY(0);
+    }
+    
+    .edit-modal-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-edit-modal {
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .close-edit-modal:active {
+      transform: scale(0.9);
+    }
+    
+    .edit-form {
+      padding: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .save-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    
+    .save-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .save-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Modal pour voir les posts */
+    .post-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .post-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .post-modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    
+    .post-modal.active .post-modal-content {
+      transform: scale(1);
+    }
+    
+    .post-modal-content img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+    }
+    
+    .post-modal-text {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      max-width: 500px;
+    }
+    
+    .close-post-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .close-post-modal:hover {
+      background: rgba(0,0,0,0.7);
+    }
+    
+    /* Loading State */
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .loader {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(108, 99, 255, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Animation pour les stats */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .stat-item.pulse {
+      animation: pulse 0.5s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .cover-photo {
+        height: 150px;
+      }
+      
+      .profile-picture {
+        width: 80px;
+        height: 80px;
+        bottom: -40px;
+        font-size: 2rem;
+      }
+      
+      .profile-actions {
+        right: 10px;
+        bottom: 10px;
+      }
+      
+      .edit-profile-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .profile-stats {
+        justify-content: space-between;
+        gap: 5px;
+      }
+      
+      .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .nav-item.add-post {
+        border-radius: 10px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-globe"></i>
+      <h1>WorldNet</h1>
+    </div>
+    <div class="hamburger-menu">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+      <div class="close-sidebar">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Aide</a></li>
+      <li><a href="#" id="privacy-btn"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+      <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+    </ul>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Contenu principal -->
+  <main>
+    <!-- En-tête du profil -->
+    <div class="profile-header">
+      <div class="cover-photo"></div>
+      <div class="profile-picture" id="profile-picture">U</div>
+      <div class="profile-actions">
+        <button class="edit-profile-btn" id="edit-profile-btn">
+          <i class="fas fa-edit"></i> Modifier
+        </button>
+      </div>
+    </div>
+
+    <!-- Informations du profil -->
+    <div class="profile-info">
+      <h1 class="profile-name" id="profile-name">Utilisateur</h1>
+      <div class="profile-email" id="profile-email">user@example.com</div>
+      <p class="profile-bio" id="profile-bio">Aucune biographie pour le moment.</p>
+      
+      <div class="profile-stats">
+        <div class="stat-item" id="post-stat">
+          <div class="stat-value" id="post-count">0</div>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat-item" id="follower-stat">
+          <div class="stat-value" id="follower-count">0</div>
+          <div class="stat-label">Abonnés</div>
+        </div>
+        <div class="stat-item" id="following-stat">
+          <div class="stat-value" id="following-count">0</div>
+          <div class="stat-label">Abonnements</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Publications de l'utilisateur -->
+    <div class="user-posts">
+      <h2 class="section-title">
+        <i class="fas fa-images"></i> Mes publications
+      </h2>
+      <div id="user-posts-container">
+        <div class="loading-container">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Navigation -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+    </a>
+    <a href="friends.html" class="nav-item">
+      <i class="fas fa-user-friends"></i>
+      <span>Réseau</span>
+    </a>
+    <div class="nav-item add-post" id="add-post-btn">
+      <i class="fas fa-plus"></i>
+    </div>
+    <a href="messages.html" class="nav-item">
+      <i class="fas fa-comment-alt"></i>
+      <span>Messages</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <!-- Modal d'édition de profil -->
+  <div class="edit-modal" id="edit-modal">
+    <div class="edit-modal-content">
+      <div class="edit-modal-header">
+        <h3>Modifier le profil</h3>
+        <span class="close-edit-modal">&times;</span>
+      </div>
+      <form class="edit-form" id="edit-form">
+        <div class="form-group">
+          <label for="edit-name">Nom complet</label>
+          <input type="text" id="edit-name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="edit-bio">Biographie</label>
+          <textarea id="edit-bio" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-photo">Photo de profil</label>
+          <input type="file" id="edit-photo" class="form-control" accept="image/*">
+        </div>
+        <button type="submit" class="save-btn">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal pour voir les posts -->
+  <div class="post-modal" id="post-modal">
+    <div class="post-modal-content">
+      <span class="close-post-modal" id="close-post-modal">&times;</span>
+      <div id="post-modal-image-container"></div>
+      <div class="post-modal-text" id="post-modal-text"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDUvJWWJJ3udBaYw-Md-1qKyHDe5cbkq9A",
+      authDomain: "worldnet-71622.firebaseapp.com",
+      projectId: "worldnet-71622",
+      storageBucket: "worldnet-71622.appspot.com",
+      messagingSenderId: "152286947447",
+      appId: "1:152286947447:web:6dd17757a2d86737cdfe72"
+    };
+
+    // Initialisation
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // Éléments du DOM
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const closeSidebar = document.querySelector('.close-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const logoutBtn = document.getElementById('logout-btn');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const editModal = document.getElementById('edit-modal');
+    const closeEditModal = document.querySelector('.close-edit-modal');
+    const editForm = document.getElementById('edit-form');
+    const profileName = document.getElementById('profile-name');
+    const profileEmail = document.getElementById('profile-email');
+    const profileBio = document.getElementById('profile-bio');
+    const profilePicture = document.getElementById('profile-picture');
+    const postCount = document.getElementById('post-count');
+    const followerCount = document.getElementById('follower-count');
+    const followingCount = document.getElementById('following-count');
+    const userPostsContainer = document.getElementById('user-posts-container');
+    const postStat = document.getElementById('post-stat');
+    const followerStat = document.getElementById('follower-stat');
+    const followingStat = document.getElementById('following-stat');
+    const postModal = document.getElementById('post-modal');
+    const closePostModal = document.getElementById('close-post-modal');
+    const postModalImageContainer = document.getElementById('post-modal-image-container');
+    const postModalText = document.getElementById('post-modal-text');
+    const addPostBtn = document.getElementById('add-post-btn');
+    const helpBtn = document.getElementById('help-btn');
+    const privacyBtn = document.getElementById('privacy-btn');
+
+    // Variables
+    let currentUser = null;
+    let userData = null;
+    let userPosts = [];
+
+    // Vérification de connexion
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      
+      currentUser = user;
+      loadProfile();
+      loadUserPosts();
+      loadFollowersCount();
+      loadFollowingCount();
+    });
+
+    // Charger le profil
+    async function loadProfile() {
+      // Afficher les infos de base
+      profileName.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+      profileEmail.textContent = currentUser.email;
+      profilePicture.textContent = (currentUser.displayName || 'U').charAt(0).toUpperCase();
+
+      // Charger les données supplémentaires depuis Firestore
+      const userDoc = await db.collection("users").doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        userData = userDoc.data();
+        
+        if (userData.bio) {
+          profileBio.textContent = userData.bio;
+        }
+        
+        if (userData.photoURL) {
+          profilePicture.style.backgroundImage = `url('${userData.photoURL}')`;
+          profilePicture.textContent = '';
+        }
+      }
+    }
+
+    // Charger le nombre d'abonnés
+    async function loadFollowersCount() {
+      const followersSnapshot = await db.collection("users")
+        .where("following", "array-contains", currentUser.uid)
+        .get();
+      
+      followerCount.textContent = followersSnapshot.size;
+    }
+
+    // Charger le nombre d'abonnements
+    async function loadFollowingCount() {
+      const userDoc = await db.collection("users").doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        const following = userDoc.data().following || [];
+        followingCount.textContent = following.length;
+      }
+    }
+
+    // Charger les posts de l'utilisateur
+    async function loadUserPosts() {
+      db.collection("posts")
+        .where("userId", "==", currentUser.uid)
+        .orderBy("createdAt", "desc")
+        .onSnapshot((snapshot) => {
+          userPosts = [];
+          userPostsContainer.innerHTML = '';
+          
+          if (snapshot.empty) {
+            userPostsContainer.innerHTML = '<p style="text-align:center;color:var(--gray);">Aucune publication</p>';
+            postCount.textContent = '0';
+            return;
+          }
+          
+          const postsGrid = document.createElement('div');
+          postsGrid.className = 'posts-grid';
+          userPostsContainer.appendChild(postsGrid);
+          
+          snapshot.forEach((doc) => {
+            const post = {
+              id: doc.id,
+              ...doc.data()
+            };
+            userPosts.push(post);
+            
+            const postElement = createPostGridItem(post);
+            postsGrid.appendChild(postElement);
+          });
+          
+          postCount.textContent = snapshot.size;
+        });
+    }
+
+    // Créer un élément de grille pour un post
+    function createPostGridItem(post) {
+      const postElement = document.createElement('div');
+      postElement.className = 'post-item';
+      
+      if (post.imageBase64) {
+        postElement.innerHTML = `<img src="${post.imageBase64}" alt="Post image">`;
+      } else {
+        postElement.className += ' no-image';
+        postElement.textContent = post.text || 'Publication sans image';
+      }
+      
+      postElement.addEventListener('click', () => openPostModal(post));
+      return postElement;
+    }
+
+    // Ouvrir le modal pour voir un post
+    function openPostModal(post) {
+      postModalImageContainer.innerHTML = '';
+      postModalText.textContent = '';
+      
+      if (post.imageBase64) {
+        postModalImageContainer.innerHTML = `<img src="${post.imageBase64}" alt="Post image">`;
+      }
+      
+      if (post.text) {
+        postModalText.textContent = post.text;
+      } else if (!post.imageBase64) {
+        postModalText.textContent = 'Publication sans image';
+      }
+      
+      postModal.classList.add('active');
+      overlay.classList.add('active');
+    }
+
+    // Fermer le modal de post
+    function closePostModalFunc() {
+      postModal.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+
+    // Menu hamburger
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      closePostModalFunc();
+      editModal.classList.remove('active');
+    });
+
+    // Déconnexion
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    // Aide
+    helpBtn.addEventListener('click', () => {
+      alert("Centre d'aide - Contactez-nous à support@worldnet.com");
+    });
+
+    // Confidentialité
+    privacyBtn.addEventListener('click', () => {
+      alert("Politique de confidentialité - Vos données sont sécurisées avec nous.");
+    });
+
+    // Modal d'édition
+    editProfileBtn.addEventListener('click', () => {
+      // Pré-remplir le formulaire
+      document.getElementById('edit-name').value = currentUser.displayName || '';
+      document.getElementById('edit-bio').value = userData?.bio || '';
+      
+      editModal.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    closeEditModal.addEventListener('click', () => {
+      editModal.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Sauvegarder les modifications
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('edit-name').value.trim();
+      const bio = document.getElementById('edit-bio').value.trim();
+      const photoFile = document.getElementById('edit-photo').files[0];
+
+      try {
+        // Mettre à jour le nom d'affichage
+        if (name && name !== currentUser.displayName) {
+          await currentUser.updateProfile({ displayName: name });
+          profileName.textContent = name;
+          profilePicture.textContent = name.charAt(0).toUpperCase();
+        }
+
+        // Mettre à jour la photo si fournie
+        let photoURL = userData?.photoURL || '';
+        if (photoFile) {
+          const storageRef = storage.ref(`profile_pictures/${currentUser.uid}`);
+          const snapshot = await storageRef.put(photoFile);
+          photoURL = await snapshot.ref.getDownloadURL();
+          
+          profilePicture.style.backgroundImage = `url('${photoURL}')`;
+          profilePicture.textContent = '';
+        }
+
+        // Mettre à jour les données supplémentaires dans Firestore
+        await db.collection("users").doc(currentUser.uid).set({
+          displayName: name,
+          bio: bio,
+          photoURL: photoURL,
+          email: currentUser.email
+        }, { merge: true });
+
+        editModal.classList.remove('active');
+        overlay.classList.remove('active');
+        
+        // Ajouter une animation de feedback
+        const saveBtn = document.querySelector('.save-btn');
+        saveBtn.textContent = '✓ Enregistré';
+        saveBtn.style.backgroundColor = '#4CAF50';
+        
+        setTimeout(() => {
+          saveBtn.textContent = 'Enregistrer';
+          saveBtn.style.backgroundColor = 'var(--primary)';
+        }, 2000);
+        
+      } catch (error) {
+        console.error("Erreur:", error);
+        alert("Une erreur est survenue lors de la mise à jour");
+      }
+    });
+
+    // Navigation statistiques
+    postStat.addEventListener('click', () => {
+      postStat.classList.add('pulse');
+      setTimeout(() => postStat.classList.remove('pulse'), 500);
+      
+      window.scrollTo({
+        top: document.querySelector('.user-posts').offsetTop - 20,
+        behavior: 'smooth'
+      });
+    });
+
+    followerStat.addEventListener('click', async () => {
+      followerStat.classList.add('pulse');
+      setTimeout(() => followerStat.classList.remove('pulse'), 500);
+      
+      try {
+        const followersSnapshot = await db.collection('users')
+          .where('following', 'array-contains', currentUser.uid)
+          .get();
+        
+        const followers = followersSnapshot.docs.map(doc => doc.data().displayName || doc.data().email.split('@')[0]);
+        
+        if (followers.length > 0) {
+          alert(`Abonnés:\n\n${followers.join('\n')}`);
+        } else {
+          alert('Aucun abonné pour le moment');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Impossible de charger la liste des abonnés');
+      }
+    });
+
+    followingStat.addEventListener('click', async () => {
+      followingStat.classList.add('pulse');
+      setTimeout(() => followingStat.classList.remove('pulse'), 500);
+      
+      try {
+        const userDoc = await db.collection('users').doc(currentUser.uid).get();
+        const following = userDoc.data()?.following || [];
+        
+        if (following.length === 0) {
+          alert('Vous ne suivez personne pour le moment');
+          return;
+        }
+        
+        const followingUsers = [];
+        
+        for (const userId of following) {
+          const userDoc = await db.collection('users').doc(userId).get();
+          if (userDoc.exists) {
+            followingUsers.push(userDoc.data().displayName || userDoc.data().email.split('@')[0]);
+          }
+        }
+        
+        alert(`Abonnements:\n\n${followingUsers.join('\n')}`);
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Impossible de charger la liste des abonnements');
+      }
+    });
+
+    // Bouton ajouter un post
+    addPostBtn.addEventListener('click', () => {
+      window.location.href = "home.html#add-post";
+    });
+
+    // Fermer le modal de post
+    closePostModal.addEventListener('click', closePostModalFunc);
+  </script>
+</body>
+</html>

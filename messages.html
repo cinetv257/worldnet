@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldNet - Messages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #4D44DB;
+      --accent: #FF6584;
+      --light: #F8F9FA;
+      --dark: #212529;
+      --gray: #6C757D;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      padding-bottom: 60px;
+    }
+    
+    /* Header */
+    .header {
+      background: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    /* Menu Hamburger */
+    .hamburger-menu {
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .hamburger-menu i {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .sidebar.active {
+      right: 0;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+    }
+    
+    .close-sidebar {
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .close-sidebar:active {
+      transform: scale(0.9);
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+    
+    .sidebar-menu a {
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .sidebar-menu a:hover {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    /* Conversations List */
+    .conversations-container {
+      background: white;
+      margin: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    
+    .conversations-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+    
+    .conversations-header h2 {
+      font-size: 1.2rem;
+    }
+    
+    .new-conversation-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+    
+    .new-conversation-btn:active {
+      transform: scale(0.9);
+    }
+    
+    .conversation-item {
+      display: flex;
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .conversation-item:hover {
+      background: #f9f9f9;
+    }
+    
+    .conversation-item.active {
+      background: #f0f2ff;
+    }
+    
+    .conversation-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-weight: bold;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .conversation-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .conversation-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .conversation-preview {
+      color: var(--gray);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .conversation-time {
+      color: var(--gray);
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+    
+    .unread-badge {
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      margin-left: 10px;
+    }
+    
+    /* No Conversations */
+    .no-conversations {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray);
+    }
+    
+    .no-conversations i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    /* New Conversation Modal */
+    .new-conversation-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .new-conversation-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .new-conversation-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    
+    .new-conversation-modal.active .new-conversation-content {
+      transform: translateY(0);
+    }
+    
+    .new-conversation-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .close-new-conversation {
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .close-new-conversation:active {
+      transform: scale(0.9);
+    }
+    
+    .user-search {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .search-user-input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .search-user-input:focus {
+      border-color: var(--primary);
+    }
+    
+    .user-search-results {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .search-user-item {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .search-user-item:hover {
+      background: #f9f9f9;
+    }
+    
+    .search-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-weight: bold;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 90;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      flex: 1;
+      transition: all 0.3s;
+    }
+    
+    .nav-item i {
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+      transition: all 0.3s;
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover {
+      color: var(--primary);
+    }
+    
+    .nav-item:hover i {
+      transform: translateY(-3px);
+    }
+    
+    .nav-item.add-post {
+      flex: 0;
+      position: relative;
+      top: -20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .nav-item.add-post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4);
+    }
+    
+    .nav-item.add-post:active {
+      transform: scale(0.95);
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 900;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Loading State */
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .loader {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(108, 99, 255, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Loading dots */
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .loading-dots span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin: 0 3px;
+      opacity: 0.4;
+    }
+    
+    .loading-dots span:nth-child(1) {
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    
+    .loading-dots span:nth-child(2) {
+      animation: pulse 1.4s ease-in-out 0.2s infinite;
+    }
+    
+    .loading-dots span:nth-child(3) {
+      animation: pulse 1.4s ease-in-out 0.4s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.4;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .conversation-avatar {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+      }
+      
+      .conversation-item {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <i class="fas fa-globe"></i>
+      <h1>WorldNet</h1>
+    </div>
+    <div class="hamburger-menu">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+      <div class="close-sidebar">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Aide</a></li>
+      <li><a href="#" id="privacy-btn"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+      <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+    </ul>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Main Content -->
+  <main>
+    <div class="conversations-container">
+      <div class="conversations-header">
+        <h2>Messages</h2>
+        <button class="new-conversation-btn" id="new-conversation-btn">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div id="conversations-list">
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- New Conversation Modal -->
+  <div class="new-conversation-modal" id="new-conversation-modal">
+    <div class="new-conversation-content">
+      <div class="new-conversation-header">
+        <h3>Nouvelle conversation</h3>
+        <span class="close-new-conversation">&times;</span>
+      </div>
+      <div class="user-search">
+        <input type="text" class="search-user-input" placeholder="Rechercher des utilisateurs..." id="search-user-input">
+      </div>
+      <div class="user-search-results" id="user-search-results">
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+    </a>
+    <a href="friends.html" class="nav-item">
+      <i class="fas fa-user-friends"></i>
+      <span>Réseau</span>
+    </a>
+    <div class="nav-item add-post" id="add-post-btn">
+      <i class="fas fa-plus"></i>
+    </div>
+    <a href="messages.html" class="nav-item active">
+      <i class="fas fa-comment-alt"></i>
+      <span>Messages</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDUvJWWJJ3udBaYw-Md-1qKyHDe5cbkq9A",
+      authDomain: "worldnet-71622.firebaseapp.com",
+      projectId: "worldnet-71622",
+      storageBucket: "worldnet-71622.appspot.com",
+      messagingSenderId: "152286947447",
+      appId: "1:152286947447:web:6dd17757a2d86737cdfe72"
+    };
+
+    // Initialisation
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Éléments du DOM
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const closeSidebar = document.querySelector('.close-sidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.overlay');
+    const logoutBtn = document.getElementById('logout-btn');
+    const helpBtn = document.getElementById('help-btn');
+    const privacyBtn = document.getElementById('privacy-btn');
+    const conversationsList = document.getElementById('conversations-list');
+    const newConversationBtn = document.getElementById('new-conversation-btn');
+    const newConversationModal = document.getElementById('new-conversation-modal');
+    const closeNewConversation = document.querySelector('.close-new-conversation');
+    const searchUserInput = document.getElementById('search-user-input');
+    const userSearchResults = document.getElementById('user-search-results');
+    const addPostBtn = document.getElementById('add-post-btn');
+
+    // Variables
+    let currentUser = null;
+    let allUsers = [];
+    let conversations = [];
+    let conversationsListener = null;
+
+    // Vérification de connexion
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      
+      currentUser = user;
+      loadConversations();
+      loadAllUsers();
+    });
+
+    // Charger toutes les conversations
+    async function loadConversations() {
+      try {
+        if (conversationsListener) {
+          conversationsListener();
+        }
+        
+        conversationsListener = db.collection("messages")
+          .where("participants", "array-contains", currentUser.uid)
+          .onSnapshot(async (snapshot) => {
+            if (snapshot.empty) {
+              conversationsList.innerHTML = `
+                <div class="no-conversations">
+                  <i class="fas fa-comment-slash"></i>
+                  <h3>Aucune conversation</h3>
+                  <p>Commencez une nouvelle discussion</p>
+                </div>
+              `;
+              return;
+            }
+            
+            const promises = [];
+            conversations = [];
+            
+            snapshot.forEach((doc) => {
+              const conversation = doc.data();
+              conversation.id = doc.id;
+              
+              // Récupérer les infos de l'autre participant
+              const otherUserId = conversation.participants.find(id => id !== currentUser.uid);
+              const promise = db.collection("users").doc(otherUserId).get().then(userDoc => {
+                if (userDoc.exists) {
+                  conversation.otherUser = userDoc.data();
+                  conversation.otherUser.id = otherUserId;
+                  conversations.push(conversation);
+                }
+              });
+              
+              promises.push(promise);
+            });
+            
+            await Promise.all(promises);
+            
+            // Trier les conversations - celles avec messages en premier
+            conversations.sort((a, b) => {
+              const aTime = a.lastMessageTime?.toDate() || new Date(0);
+              const bTime = b.lastMessageTime?.toDate() || new Date(0);
+              return bTime - aTime;
+            });
+            
+            displayConversations();
+          }, (error) => {
+            console.error("Erreur d'écouteur:", error);
+            conversationsList.innerHTML = `
+              <div class="no-conversations">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Erreur de chargement</h3>
+                <p>Impossible de charger les conversations</p>
+              </div>
+            `;
+          });
+          
+      } catch (error) {
+        console.error("Erreur:", error);
+        conversationsList.innerHTML = `
+          <div class="no-conversations">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Erreur de chargement</h3>
+            <p>Impossible de charger les conversations</p>
+          </div>
+        `;
+      }
+    }
+
+    // Afficher les conversations
+    function displayConversations() {
+      conversationsList.innerHTML = '';
+      
+      if (conversations.length === 0) {
+        conversationsList.innerHTML = `
+          <div class="no-conversations">
+            <i class="fas fa-comment-slash"></i>
+            <h3>Aucune conversation</h3>
+            <p>Commencez une nouvelle discussion</p>
+          </div>
+        `;
+        return;
+      }
+      
+      conversations.forEach(conversation => {
+        const conversationElement = createConversationElement(conversation);
+        conversationsList.appendChild(conversationElement);
+      });
+    }
+
+    // Créer un élément conversation
+    function createConversationElement(conversation) {
+      const unreadCount = conversation.unreadCount?.[currentUser.uid] || 0;
+      const lastMessageTime = conversation.lastMessageTime?.toDate();
+      
+      let avatarContent = conversation.otherUser.displayName?.charAt(0) || 'U';
+      let avatarStyle = '';
+      if (conversation.otherUser.photoURL) {
+        avatarContent = '';
+        avatarStyle = `background-image: url('${conversation.otherUser.photoURL}')`;
+      }
+      
+      const conversationElement = document.createElement('div');
+      conversationElement.className = 'conversation-item';
+      conversationElement.dataset.conversationId = conversation.id;
+      conversationElement.dataset.userId = conversation.otherUser.id;
+      
+      conversationElement.innerHTML = `
+        <div class="conversation-avatar" style="${avatarStyle}">
+          ${avatarContent}
+        </div>
+        <div class="conversation-info">
+          <div class="conversation-name">${conversation.otherUser.displayName || 'Utilisateur'}</div>
+          <div class="conversation-preview">${conversation.lastMessage || 'Aucun message'}</div>
+          <div class="conversation-time">${formatTime(lastMessageTime)}</div>
+        </div>
+        ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
+      `;
+      
+      conversationElement.addEventListener('click', () => {
+        window.location.href = `chat.html?userId=${conversation.otherUser.id}&conversationId=${conversation.id}`;
+      });
+      
+      return conversationElement;
+    }
+
+    // Charger tous les utilisateurs pour la recherche
+    async function loadAllUsers() {
+      try {
+        const snapshot = await db.collection("users").get();
+        allUsers = snapshot.docs
+          .filter(doc => doc.id !== currentUser.uid)
+          .map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error("Erreur:", error);
+      }
+    }
+
+    // Afficher les résultats de recherche
+    function displaySearchResults(users) {
+      userSearchResults.innerHTML = '';
+      
+      if (users.length === 0) {
+        userSearchResults.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray);">Aucun utilisateur trouvé</div>';
+        return;
+      }
+      
+      users.forEach(user => {
+        let avatarContent = user.displayName?.charAt(0) || 'U';
+        let avatarStyle = '';
+        if (user.photoURL) {
+          avatarContent = '';
+          avatarStyle = `background-image: url('${user.photoURL}')`;
+        }
+        
+        const userElement = document.createElement('div');
+        userElement.className = 'search-user-item';
+        userElement.dataset.userId = user.id;
+        
+        userElement.innerHTML = `
+          <div class="search-user-avatar" style="${avatarStyle}">
+            ${avatarContent}
+          </div>
+          <div>
+            <div style="font-weight:600;">${user.displayName || 'Utilisateur'}</div>
+            <div style="font-size:0.8rem;color:var(--gray);">${user.email || ''}</div>
+          </div>
+        `;
+        
+        userElement.addEventListener('click', async () => {
+          closeNewConversationModal();
+          window.location.href = `chat.html?userId=${user.id}`;
+        });
+        
+        userSearchResults.appendChild(userElement);
+      });
+    }
+
+    // Formatage de la date
+    function formatTime(date) {
+      if (!date) return "Nouvelle conversation";
+      
+      const now = new Date();
+      const diff = now - date;
+      const minutes = Math.floor(diff / (1000 * 60));
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      
+      if (minutes < 1) return "À l'instant";
+      if (minutes < 60) return `Il y a ${minutes} min`;
+      if (hours < 24) return `Il y a ${hours} h`;
+      if (days === 1) return "Hier";
+      if (days < 7) return `Il y a ${days} j`;
+      return date.toLocaleDateString('fr-FR');
+    }
+
+    // Ouvrir/fermer le modal de nouvelle conversation
+    function openNewConversationModal() {
+      newConversationModal.classList.add('active');
+      overlay.classList.add('active');
+      searchUserInput.focus();
+    }
+
+    function closeNewConversationModal() {
+      newConversationModal.classList.remove('active');
+      overlay.classList.remove('active');
+      searchUserInput.value = '';
+      userSearchResults.innerHTML = '';
+    }
+
+    // Menu hamburger
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      closeNewConversationModal();
+    });
+
+    // Nouvelle conversation
+    newConversationBtn.addEventListener('click', openNewConversationModal);
+    closeNewConversation.addEventListener('click', closeNewConversationModal);
+
+    // Recherche d'utilisateurs
+    searchUserInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      if (searchTerm.length > 0) {
+        const filteredUsers = allUsers.filter(user => 
+          (user.displayName?.toLowerCase().includes(searchTerm) || 
+           user.email?.toLowerCase().includes(searchTerm))
+        );
+        displaySearchResults(filteredUsers);
+      } else {
+        userSearchResults.innerHTML = '';
+      }
+    });
+
+    // Déconnexion
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut();
+    });
+
+    // Aide
+    helpBtn.addEventListener('click', () => {
+      alert("Centre d'aide - Contactez-nous à support@worldnet.com");
+    });
+
+    // Confidentialité
+    privacyBtn.addEventListener('click', () => {
+      alert("Politique de confidentialité - Vos données sont sécurisées avec nous.");
+    });
+
+    // Bouton ajouter un post
+    addPostBtn.addEventListener('click', () => {
+      window.location.href = "home.html#add-post";
+    });
+  </script>
+</body>
+</html>
