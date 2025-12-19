@@ -78,6 +78,94 @@
       font-weight: 700;
     }
     
+    /* ==================== MENU HAMBURGER ==================== */
+    .hamburger-menu {
+      cursor: pointer;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+    
+    .hamburger-menu:active {
+      transform: scale(0.9);
+    }
+    
+    .hamburger-menu i {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    /* ==================== SIDEBAR MENU ==================== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 280px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .sidebar.active {
+      right: 0;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+    }
+    
+    .close-sidebar {
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .close-sidebar:active {
+      transform: scale(0.9);
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 15px;
+    }
+    
+    .sidebar-menu a {
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .sidebar-menu a:hover {
+      background: rgba(138, 43, 226, 0.1);
+      color: var(--primary);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
     /* ==================== STORIES SECTION ==================== */
     .stories-section {
       padding: 15px;
@@ -272,6 +360,7 @@
       font-size: 0.7rem;
     }
     
+    /* ==================== MENU 3 POINTS (OPTIONS) ==================== */
     .post-menu {
       position: absolute;
       right: 15px;
@@ -287,11 +376,77 @@
       padding: 5px;
       border-radius: 50%;
       transition: all 0.3s;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .menu-btn:hover {
       background: var(--light);
       color: var(--primary);
+    }
+    
+    /* Menu déroulant des options */
+    .post-options {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      min-width: 180px;
+      z-index: 100;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .post-options.active {
+      display: block;
+    }
+    
+    .post-options button {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      background: none;
+      text-align: left;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      transition: all 0.3s;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .post-options button:last-child {
+      border-bottom: none;
+    }
+    
+    .post-options button:hover {
+      background: var(--light);
+      color: var(--primary);
+    }
+    
+    .post-options button i {
+      width: 20px;
+      text-align: center;
+    }
+    
+    .post-options .delete-btn {
+      color: var(--danger);
+    }
+    
+    .post-options .delete-btn:hover {
+      background: rgba(239, 71, 111, 0.1);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .post-content {
@@ -406,7 +561,7 @@
       z-index: 2;
     }
     
-    /* ==================== ACTIONS POST ==================== */
+    /* ==================== ACTIONS POST (ICONES SEULEMENT) ==================== */
     .post-stats {
       display: flex;
       justify-content: space-between;
@@ -425,13 +580,14 @@
     .post-action {
       display: flex;
       align-items: center;
+      justify-content: center;
       color: var(--gray);
       cursor: pointer;
-      padding: 8px 15px;
+      padding: 8px;
       border-radius: 8px;
       transition: all 0.3s;
-      gap: 8px;
-      font-weight: 500;
+      width: 40px;
+      height: 40px;
     }
     
     .post-action:hover {
@@ -441,7 +597,7 @@
     }
     
     .post-action i {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
     
     .post-action.liked {
@@ -478,11 +634,6 @@
       gap: 10px;
       margin-bottom: 12px;
       animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     
     .comment-avatar {
@@ -980,8 +1131,12 @@
       }
       
       .post-action {
-        padding: 8px 10px;
-        font-size: 0.9rem;
+        width: 35px;
+        height: 35px;
+      }
+      
+      .post-action i {
+        font-size: 1.1rem;
       }
       
       .nav-item span {
@@ -1007,6 +1162,24 @@
     </div>
   </header>
 
+  <!-- Sidebar Menu -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+      <div class="close-sidebar" id="close-sidebar">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="progress.html"><i class="fas fa-chart-line"></i> Progression Hebdomadaire</a></li>
+      <li><a href="saved.html"><i class="fas fa-bookmark"></i> Sauvegardes</a></li>
+      <li><a href="search.html"><i class="fas fa-search"></i> Recherche</a></li>
+      <li><a href="privacy.html"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+      <li><a href="help.html"><i class="fas fa-question-circle"></i> Aide</a></li>
+      <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+    </ul>
+  </div>
+
   <!-- Stories Section -->
   <section class="stories-section">
     <div class="stories-title">
@@ -1017,11 +1190,12 @@
     </div>
     
     <div class="stories-container" id="stories-container">
-      <!-- Stories chargées dynamiquement -->
-      <div class="loading-dots">
-        <span></span>
-        <span></span>
-        <span></span>
+      <!-- Bouton "Ma story" toujours visible -->
+      <div class="story-item">
+        <div class="story-avatar add-story" onclick="addNewStory()">
+          <i class="fas fa-plus"></i>
+        </div>
+        <div class="story-name">Ma story</div>
       </div>
     </div>
   </section>
@@ -1126,6 +1300,9 @@
     const closeModalBtn = document.getElementById('close-modal');
     const overlay = document.getElementById('overlay');
     const hamburgerMenu = document.getElementById('hamburger-menu');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
+    const logoutBtn = document.getElementById('logout-btn');
     const notificationBadge = document.getElementById('message-notification-badge');
 
     // ==================== VARIABLES GLOBALES ====================
@@ -1135,6 +1312,7 @@
     let allStories = [];
     let selectedImages = [];
     let carouselInstances = new Map();
+    let activePostMenu = null;
 
     // ==================== AUTHENTIFICATION ====================
     auth.onAuthStateChanged(async (user) => {
@@ -1171,6 +1349,34 @@
         });
     }
 
+    // ==================== MENU HAMBURGER ====================
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      closePostModal();
+      if (activePostMenu) {
+        activePostMenu.classList.remove('active');
+        activePostMenu = null;
+      }
+    });
+
+    // Déconnexion
+    logoutBtn.addEventListener('click', () => {
+      if (confirm("Voulez-vous vraiment vous déconnecter ?")) {
+        auth.signOut();
+      }
+    });
+
     // ==================== CHARGEMENT DES SUIVIS ====================
     async function loadFollowing() {
       try {
@@ -1189,7 +1395,7 @@
         // Charger les stories des utilisateurs suivis
         if (following.length > 0) {
           db.collection("stories")
-            .where("userId", "in", following.slice(0, 10)) // Limiter à 10 utilisateurs
+            .where("userId", "in", following.slice(0, 10))
             .where("expiresAt", ">", new Date())
             .onSnapshot((snapshot) => {
               allStories = snapshot.docs.map(doc => ({
@@ -1199,79 +1405,68 @@
               
               displayStories(allStories);
             });
+        } else {
+          // Afficher juste le bouton "Ma story" si aucun suivant
+          displayStories([]);
         }
-        
-        // Ajouter aussi les stories de l'utilisateur actuel
-        const userStoriesSnapshot = await db.collection("stories")
-          .where("userId", "==", currentUser.uid)
-          .where("expiresAt", ">", new Date())
-          .get();
-        
-        userStoriesSnapshot.forEach(doc => {
-          allStories.push({
-            id: doc.id,
-            ...doc.data()
-          });
-        });
         
       } catch (error) {
         console.error("Erreur chargement stories:", error);
+        displayStories([]);
       }
     }
 
     function displayStories(stories) {
       storiesContainer.innerHTML = '';
       
-      if (stories.length === 0) {
-        storiesContainer.innerHTML = '<p style="text-align:center;color:var(--gray);padding:10px;">Aucune story active</p>';
-        return;
-      }
-      
-      // Grouper les stories par utilisateur
-      const storiesByUser = {};
-      stories.forEach(story => {
-        if (!storiesByUser[story.userId]) {
-          storiesByUser[story.userId] = {
-            userId: story.userId,
-            userName: story.userName,
-            userAvatar: story.userAvatar,
-            stories: []
-          };
-        }
-        storiesByUser[story.userId].stories.push(story);
-      });
-      
-      // Créer un élément pour chaque utilisateur
-      Object.values(storiesByUser).forEach(userStories => {
-        const storyElement = document.createElement('div');
-        storyElement.className = 'story-item';
-        
-        // Vérifier si l'utilisateur a vu cette story
-        const hasSeen = userStories.stories[0]?.viewedBy?.includes(currentUser.uid);
-        
-        storyElement.innerHTML = `
-          <div class="story-avatar ${!hasSeen ? 'has-story' : ''}" onclick="openStory('${userStories.userId}')">
-            ${userStories.userAvatar ? 
-              `<img src="${userStories.userAvatar}" alt="${userStories.userName}">` : 
-              `<span>${userStories.userName.charAt(0)}</span>`
-            }
-          </div>
-          <div class="story-name">${userStories.userName}</div>
-        `;
-        
-        storiesContainer.appendChild(storyElement);
-      });
-      
-      // Ajouter le bouton "Ajouter ma story"
-      const addStoryElement = document.createElement('div');
-      addStoryElement.className = 'story-item';
-      addStoryElement.innerHTML = `
+      // Bouton "Ma story" toujours visible
+      const myStoryElement = document.createElement('div');
+      myStoryElement.className = 'story-item';
+      myStoryElement.innerHTML = `
         <div class="story-avatar add-story" onclick="addNewStory()">
           <i class="fas fa-plus"></i>
         </div>
         <div class="story-name">Ma story</div>
       `;
-      storiesContainer.appendChild(addStoryElement);
+      storiesContainer.appendChild(myStoryElement);
+      
+      // Ajouter les stories des autres utilisateurs
+      if (stories.length > 0) {
+        // Grouper les stories par utilisateur
+        const storiesByUser = {};
+        stories.forEach(story => {
+          if (!storiesByUser[story.userId]) {
+            storiesByUser[story.userId] = {
+              userId: story.userId,
+              userName: story.userName,
+              userAvatar: story.userAvatar,
+              stories: []
+            };
+          }
+          storiesByUser[story.userId].stories.push(story);
+        });
+        
+        // Créer un élément pour chaque utilisateur
+        Object.values(storiesByUser).forEach(userStories => {
+          const storyElement = document.createElement('div');
+          storyElement.className = 'story-item';
+          
+          // Vérifier si l'utilisateur a vu cette story
+          const hasSeen = userStories.stories[0]?.viewedBy?.includes(currentUser.uid);
+          
+          storyElement.innerHTML = `
+            <div class="story-avatar ${!hasSeen ? 'has-story' : ''}" onclick="openStory('${userStories.userId}')">
+              ${userStories.userAvatar ? 
+                `<img src="${userStories.userAvatar}" alt="${userStories.userName}">` : 
+                `<span>${userStories.userName.charAt(0)}</span>`
+              }
+            </div>
+            <div class="story-name">${userStories.userName}</div>
+          `;
+          
+          storiesContainer.appendChild(storyElement);
+        });
+      }
     }
 
     // ==================== CHARGEMENT DES POSTS ====================
@@ -1307,7 +1502,7 @@
         return;
       }
       
-      posts.forEach((post, index) => {
+      posts.forEach((post) => {
         const postElement = createPostElement(post);
         postsContainer.appendChild(postElement);
       });
@@ -1358,9 +1553,29 @@
             </div>
           </div>
           <div class="post-menu">
-            <button class="menu-btn">
+            <button class="menu-btn" data-post-id="${post.id}">
               <i class="fas fa-ellipsis-h"></i>
             </button>
+            <div class="post-options" id="options-${post.id}">
+              ${isOwnPost ? `
+                <button class="edit-post" data-post-id="${post.id}">
+                  <i class="fas fa-edit"></i> Modifier
+                </button>
+                <button class="delete-post delete-btn" data-post-id="${post.id}">
+                  <i class="fas fa-trash"></i> Supprimer
+                </button>
+              ` : `
+                <button class="report-post" data-post-id="${post.id}">
+                  <i class="fas fa-flag"></i> Signaler
+                </button>
+                <button class="hide-post" data-post-id="${post.id}">
+                  <i class="fas fa-eye-slash"></i> Masquer
+                </button>
+              `}
+              <button class="copy-link" data-post-id="${post.id}">
+                <i class="fas fa-link"></i> Copier le lien
+              </button>
+            </div>
           </div>
         </div>
         
@@ -1406,22 +1621,18 @@
         <div class="post-actions">
           <div class="post-action like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
             <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
-            <span>J'aime</span>
           </div>
           
           <div class="post-action comment-btn" data-post-id="${post.id}">
             <i class="far fa-comment"></i>
-            <span>Commenter</span>
           </div>
           
           <div class="post-action share-btn" data-post-id="${post.id}">
             <i class="fas fa-share"></i>
-            <span>Partager</span>
           </div>
           
           <div class="post-action save-btn ${isSaved ? 'saved' : ''}" data-post-id="${post.id}">
             <i class="${isSaved ? 'fas' : 'far'} fa-bookmark"></i>
-            <span>${isSaved ? 'Sauvé' : 'Sauvegarder'}</span>
           </div>
         </div>
         
@@ -1499,9 +1710,39 @@
       });
     }
 
-    // ==================== ÉVÉNEMENTS DES POSTS ====================
+    // ==================== MENU 3 POINTS (OPTIONS) ====================
     function setupPostEvents(postElement, post) {
       const postId = post.id;
+      const isOwnPost = post.userId === currentUser.uid;
+      
+      // Bouton menu (3 points)
+      const menuBtn = postElement.querySelector('.menu-btn');
+      const optionsMenu = postElement.querySelector('.post-options');
+      
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Fermer les autres menus ouverts
+        if (activePostMenu && activePostMenu !== optionsMenu) {
+          activePostMenu.classList.remove('active');
+        }
+        
+        // Ouvrir/fermer ce menu
+        optionsMenu.classList.toggle('active');
+        activePostMenu = optionsMenu.classList.contains('active') ? optionsMenu : null;
+      });
+      
+      // Options du menu
+      const options = postElement.querySelectorAll('.post-options button');
+      options.forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const action = option.classList[0];
+          handlePostAction(action, postId, isOwnPost);
+          optionsMenu.classList.remove('active');
+          activePostMenu = null;
+        });
+      });
       
       // Like
       postElement.querySelector('.like-btn').addEventListener('click', () => {
@@ -1540,6 +1781,83 @@
           commentInput.value = '';
         }
       });
+      
+      // Fermer le menu si on clique ailleurs
+      document.addEventListener('click', () => {
+        if (optionsMenu.classList.contains('active')) {
+          optionsMenu.classList.remove('active');
+          activePostMenu = null;
+        }
+      });
+    }
+
+    function handlePostAction(action, postId, isOwnPost) {
+      switch(action) {
+        case 'edit-post':
+          editPost(postId);
+          break;
+        case 'delete-post':
+          if (confirm("Supprimer cette publication ?")) {
+            deletePost(postId);
+          }
+          break;
+        case 'report-post':
+          reportPost(postId);
+          break;
+        case 'hide-post':
+          hidePost(postId);
+          break;
+        case 'copy-link':
+          copyPostLink(postId);
+          break;
+      }
+    }
+
+    async function editPost(postId) {
+      alert("Édition à venir dans une prochaine mise à jour !");
+    }
+
+    async function deletePost(postId) {
+      try {
+        await db.collection("posts").doc(postId).delete();
+        alert("Publication supprimée avec succès !");
+      } catch (error) {
+        console.error("Erreur suppression:", error);
+        alert("Erreur lors de la suppression");
+      }
+    }
+
+    async function reportPost(postId) {
+      try {
+        await db.collection("reports").add({
+          postId: postId,
+          reporterId: currentUser.uid,
+          reason: "Contenu inapproprié",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("Publication signalée. Merci !");
+      } catch (error) {
+        console.error("Erreur signalement:", error);
+      }
+    }
+
+    function hidePost(postId) {
+      const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+      if (postElement) {
+        postElement.style.display = 'none';
+        alert("Publication masquée");
+      }
+    }
+
+    async function copyPostLink(postId) {
+      try {
+        const postUrl = `${window.location.origin}/post.html?id=${postId}`;
+        await navigator.clipboard.writeText(postUrl);
+        alert("Lien copié dans le presse-papier !");
+      } catch (error) {
+        console.error("Erreur copie:", error);
+        alert("Impossible de copier le lien");
+      }
     }
 
     // ==================== INTERACTIONS ====================
